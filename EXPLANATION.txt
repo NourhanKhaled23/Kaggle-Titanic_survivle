@@ -1,0 +1,64 @@
+This code trains a random forest classifier to predict whether a passenger survived the Titanic shipwreck. The steps are as follows:
+
+Import the necessary libraries: numpy and pandas.
+Read the train and test data from CSV files.
+Read the gender submission CSV file to get the ground truth labels for the test data.
+Calculate the survival rate for women and men.
+Create a random forest classifier with 100 estimators, a maximum depth of 5, and a random state of 1.
+Fit the classifier to the train data.
+Make predictions on the test data.
+Calculate the accuracy of the predictions on the test data.
+Save the predictions to a CSV file.
+Repeat steps 5-9 for extra trees and gradient boosting classifiers.
+Here is a detailed explanation of each step:
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+These lines import the necessary libraries: numpy and pandas. Numpy is used for scientific computing, while pandas is used for data analysis and manipulation.
+
+train_data = pd.read_csv("train.csv")
+train_data.head()
+This line reads the train data from a CSV file and stores it in a pandas DataFrame. The train_data.head() method returns the first 5 rows of the DataFrame, which is useful for inspecting the data.
+
+test_data = pd.read_csv("test.csv")
+test_data.head()
+This line reads the test data from a CSV file and stores it in a pandas DataFrame. The test_data.head() method returns the first 5 rows of the DataFrame, which is useful for inspecting the data.
+
+test_data_y = pd.read_csv("gender_submission.csv")
+test_data_y.head()
+This line reads the gender submission CSV file and stores it in a pandas DataFrame. The test_data_y.head() method returns the first 5 rows of the DataFrame, which is useful for inspecting the data.
+
+women = train_data.loc[train_data.Sex == 'female']["Survived"]
+rate_women = sum(women)/len(women)
+
+print("% of women who survived:", rate_women)
+men = train_data.loc[train_data.Sex == 'male']["Survived"]
+rate_men = sum(men)/len(men)
+
+print("% of men who survived:", rate_men)
+These lines calculate the survival rate for women and men. The train_data.loc[train_data.Sex == 'female']["Survived"] line returns a pandas Series containing the survival outcomes for all female passengers. The sum() method calculates the sum of all the values in the Series, and the len() method calculates the length of the Series. The rate_women variable is then calculated by dividing the sum by the length, which gives the survival rate for women.
+
+The same process is repeated for men to calculate the survival rate for men.
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+These lines import the RandomForestClassifier class from the scikit-learn library. This class is used to train and evaluate random forest classifiers.
+
+Also, they import the accuracy_score function from the scikit-learn library. This function is used to calculate the accuracy of a classifier on a given dataset.
+
+y = train_data["Survived"]
+y_test = test_data_y["Survived"]
+These lines store the survival outcomes for the train and test data in separate variables.
+
+features = ["Pclass", "Sex", "SibSp", "Parch"]
+X = pd.get_dummies(train_data[features])
+X_test = pd.get_dummies(test_data[features])
+These lines create feature matrices for the train and test data. The pd.get_dummies() function converts categorical features into binary features.
+
+model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=1)
+model.fit(X, y)
+predictions = model.predict(X_test)
+print(accuracy_score(y_test, predictions))
+These lines create a random forest classifier with 100 estimators, a maximum depth of 5, and a random state of 1. The classifier is then fitted to the train data.
+
+The model.predict() method is then used to make predictions
