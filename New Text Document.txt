@@ -1,4 +1,6 @@
-This code trains a random forest classifier to predict whether a passenger survived the Titanic shipwreck. The steps are as follows:
+This code trains a random forest classifier to predict whether a passenger survived the Titanic shipwreck.
+
+The steps are as follows:
 
 Import the necessary libraries: numpy and pandas.
 Read the train and test data from CSV files.
